@@ -47,11 +47,11 @@ public class CSVDataHandler implements DataHandler {
     @Override
     public void writeData(Recipe recipe) throws IOException {
         try(BufferedWriter writer = new BufferedWriter(new FileWriter(filePath, true))) {
+            writer.newLine();
             writer.write(recipe.getName());
             for(Ingredient ingredient : recipe.getIngredients()) {
                 writer.write("," + ingredient.getName());
             }
-            writer.newLine();
         } catch(IOException e) {
             throw new IOException("Error writing to file: " + filePath, e);
         }

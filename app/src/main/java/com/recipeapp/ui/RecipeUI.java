@@ -6,6 +6,7 @@ import java.io.InputStreamReader;
 import java.util.ArrayList;
 
 import com.recipeapp.datahandler.DataHandler;
+import com.recipeapp.model.Ingredient;
 import com.recipeapp.model.Recipe;
 
 public class RecipeUI {
@@ -38,6 +39,7 @@ public class RecipeUI {
                     displayRecipes();
                         break;
                     case "2":
+                    addNewRecipe();
                         break;
                     case "3":
                         break;
@@ -77,6 +79,35 @@ public class RecipeUI {
             }
         } catch (IOException e) {
             System.out.println("Error reading file: " + e.getMessage());
+        }
+    }
+
+    private void addNewRecipe() {
+        try {
+            System.out.println("Adding a new recipe.");
+
+            System.out.print("Enter recipe name: ");
+            String recipeName = reader.readLine();
+
+            ArrayList<Ingredient> ingredients = new ArrayList<>();
+            System.out.println("Enter ingredients (type 'done' when finished):");
+
+            while(true) {
+                System.out.print("Ingredient: ");
+                String ingredientName = reader.readLine();
+
+                if("done".equalsIgnoreCase(ingredientName)) {
+                    break;
+                }
+                ingredients.add(new Ingredient(ingredientName));
+            }
+            Recipe newRecipe = new Recipe(recipeName, ingredients);
+
+            dataHandler.writeData(newRecipe);
+
+            System.out.println("Recipe added successfully.");
+        } catch (Exception e) {
+            System.out.println("Failed to add new recipe: " + e.getMessage());
         }
     }
 }
